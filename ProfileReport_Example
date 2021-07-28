@@ -2,8 +2,6 @@
 # coding: utf-8
 
 # In[1]:
-
-
 import json
 from pathlib import Path
 
@@ -22,8 +20,6 @@ import _util_lib_init
 # # Preprocessing
 
 # In[5]:
-
-
 df = df_raw.copy()
 
 # Prepare missing values
@@ -33,9 +29,20 @@ df = df.replace("\\?", np.nan, regex=True)
 # # HTML report
 
 # In[6]:
+%%time
+# Initialize the report
+profile = ProfileReport(df, title=PARAM_TITLE, explorative=True)
 
-
-get_ipython().run_cell_magic('time', '', '# Initialize the report\nprofile = ProfileReport(df, title=PARAM_TITLE, explorative=True)\n\n# show column definition\n# definitions = json.load(open(f"OLM_FL_column_definition.json"))\nprofile.set_variable(\n    "dataset",\n    {\n        "description": PARAM_DESCRIPTION,\n        "copyright_year": PARA_COPYRIGHT_YEAR,\n        "creator": PARAM_CREATOR,\n    },\n)\nprofile = ProfileReport(df, title=PARAM_TITLE, explorative=True)\nprofile.to_file(Path(PARAM_PATH))')
-
-
+# show column definition
+# definitions = json.load(open(f"OLM_FL_column_definition.json"))
+profile.set_variable(
+    "dataset",
+    {
+        "description": PARAM_DESCRIPTION,
+        "copyright_year": PARA_COPYRIGHT_YEAR,
+        "creator": PARAM_CREATOR,
+    },
+)
+profile = ProfileReport(df, title=PARAM_TITLE, explorative=True)
+profile.to_file(Path(PARAM_PATH))
 # In[ ]:
